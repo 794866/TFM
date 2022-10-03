@@ -1,0 +1,32 @@
+#UNA SOLA CAPA NORMALIZANDO -- ÓPTIMO
+INIT_LR = 1e-3
+epochs = 100
+batch_size = 100
+ 
+clf = Sequential()
+clf.add(Conv2D(32, kernel_size=(3, 3),activation='linear',padding='same',input_shape=(21,28,3)))
+clf.add(LeakyReLU(alpha=0.1))
+clf.add(MaxPooling2D((2, 2),padding='same'))
+clf.add(Dropout(0.5))
+clf.add(BatchNormalization())
+ 
+clf.add(Flatten())
+clf.add(Dense(32, activation='linear'))
+clf.add(LeakyReLU(alpha=0.1))
+clf.add(Dropout(0.5)) 
+clf.add(Dense(nClasses, activation='softmax'))
+ 
+clf.summary()
+ 
+clf.compile(loss=tensorflow.keras.losses.categorical_crossentropy, optimizer=tensorflow.keras.optimizers.Adagrad(lr=INIT_LR, decay=INIT_LR / 100),metrics=['accuracy'])
+
+sport_train_dropout = clf.fit(train_X, train_label, batch_size=batch_size,epochs=epochs,verbose=1,validation_data=(valid_X, valid_label))
+ 
+# guardamos la red, para reutilizarla en el futuro, sin tener que volver a entrenar
+clf.save("firstModel_mnist.h5py")
+
+
+test_eval = clf.evaluate(test_X, test_Y_one_hot, verbose=1)
+ 
+print('Test loss:', test_eval[0])
+print('Test accuracy:', test_eval[1])
