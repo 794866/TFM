@@ -21,9 +21,11 @@
 
       //Cargar modelo
       (async () => {
-          console.log("Cargando modelo...");
-          //modelo = await tf.loadLayersModel("./models/model.json");
-          modelo = await tf.loadLayersModel("https://drive.google.com/file/d/1-TGRzbMojurdNRkuaAKaV1aTEI9JWgfU/view?usp=sharing");
+        console.log("Cargando modelo...");
+          const modelUrl =
+            'https://github.com/794866/TFM/blob/main/cnn/carpeta_salida/model.json';
+          //const model = await tf.loadGraphModel(modelUrl);
+          modelo = await tf.loadLayersModel("./model.json");
           console.log("Modelo cargado...");
       })();
 
